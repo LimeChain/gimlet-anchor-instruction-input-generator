@@ -1,0 +1,25 @@
+{
+  "name": "gimlet-anchor-instruction-input-generator",
+  "version": "1.0.1",
+  "description": "Generate instruction JSON files dynamically from JS tests for Agave Ledger Tool",
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "anchor",
+    "instruction",
+    "solana",
+    "json"
+  ],
+  "author": "Limechain",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "typescript": "^5.9.2"
+  }
+}
