@@ -87,5 +87,5 @@ type Account = {
 ## Installation
 
 ```sh
-npm install gimlet-instruction-gen
+npm gimlet-anchor-instruction-input-generator
 ```
