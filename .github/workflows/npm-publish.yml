@@ -4,9 +4,8 @@
 name: Publish npm package
 
 on:
-  push:
-    branches:
-      - feat/package-publish-action
+  release:
+    types: [published]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,4 +38,4 @@ jobs:
       # --provenance add security metadata to the package
       # --access public makes the package publicly accessible
         env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}} # Auth to npm
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}} # Auth to npm
