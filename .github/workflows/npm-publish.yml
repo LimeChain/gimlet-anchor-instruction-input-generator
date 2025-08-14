@@ -7,19 +7,28 @@ on:
   release:
     types: [published]
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node.js
+        # This step sets up the Node.js environment for the workflow
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
 
-      - run: npm ci
-      - run: npm test
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build package
+        run: npm run build   # Ensure your package.json has a "build": "tsc" script
 
   publish-npm:
-    needs: build # Ensure this job runs after the build job
+    needs: build-and-test # Ensure this job runs after the build job
     runs-on: ubuntu-latest
     permissions:
       contents: read # Allow reading repository contents
@@ -32,10 +41,16 @@ jobs:
         with:
           node-version: '20.x'
           registry-url: https://registry.npmjs.org/
+      
+      - name: Install dependencies
+        run: npm ci
 
-      - run: npm ci
-      - run: npm publish --provenance --access public 
-      # --provenance add security metadata to the package
-      # --access public makes the package publicly accessible
+      - name: Build package
+        run: npm run build   # Rebuild to ensure dist/ exists in this job
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public 
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}} # Auth to npm
+      # --provenance add security metadata to the package
+      # --access public makes the package publicly accessible

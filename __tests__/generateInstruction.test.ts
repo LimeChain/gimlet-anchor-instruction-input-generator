@@ -1,17 +1,18 @@
-jest.mock("../config", () => ({ BASE_OUTPUT_DIR: "test_output" }));
-import { sha256 } from "js-sha256";
-import { generateInstruction } from "../index";
-import { Account } from "../types";
+jest.mock("../src/config.ts", () => ({ BASE_OUTPUT_DIR: "test_output" }));
+import { generateInstruction } from "../src/index";
+import { Account } from "../src/types";
 import * as fs from "fs";
+import { createHash } from "crypto";
 
 const TEST_OUTPUT_DIR = "test_output";
 
+function sha256(data: string): Buffer {
+  return createHash('sha256').update(data).digest();
+}
+
 function getDiscriminator(name: string): number[] {
-  // Anchor discriminator: first 8 bytes of sha256("global:<name>")
-  const hash = sha256.create();
-  hash.update(`global:${name}`);
-  const hex = hash.hex();
-  return Array.from(Buffer.from(hex, "hex").slice(0, 8));
+  const hash = sha256(`global:${name}`);
+  return Array.from(hash.subarray(0, 8));
 }
 
 describe("generateInstruction", () => {
