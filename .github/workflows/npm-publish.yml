@@ -4,9 +4,9 @@
 name: Publish npm package
 
 on:
-  workflow_dispatch:
-  release:
-    types: [published]
+  push:
+    branches:
+      - feat/package-publish-action
 jobs:
   build:
     runs-on: ubuntu-latest
