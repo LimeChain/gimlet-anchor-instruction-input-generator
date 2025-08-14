@@ -1,5 +1,5 @@
 import { BASE_OUTPUT_DIR } from "./config";
-import { Account } from "./types"
+import { Account } from "./types";
 import * as fs from "fs";
 
 /**
@@ -10,7 +10,7 @@ import * as fs from "fs";
  * @param instructionData - An array of numbers representing the instruction data (parameters).
  * @param accounts - An array of account objects required for the instruction.
  * @param programName - The name of the program (used as a subdirectory for output). Used for multi-program projects ONLY!
- * 
+ *
  * @example
  * generateInstruction(
  *  program.programId.toString(),
@@ -21,9 +21,9 @@ import * as fs from "fs";
  *    { ... other accounts }
  *  ]
  * );
- * 
+ *
  * If you have multi program anchor project provide the program name so that the instruction file is saved in the correct subdirectory
- * 
+ *
  * generateInstruction(
  *  "instruction_name",
  *  [
@@ -33,17 +33,20 @@ import * as fs from "fs";
  *  ],
  *  "program_name_here"
  * );
- * 
+ *
  * This is going to save the JSON input in `input/program-a/instruction_name.json`
- * 
+ *
  */
 export function generateInstruction(
-    programId: string, 
-    instructionName: string, 
-    instructionData: Buffer<ArrayBufferLike>, // store instruction parameters
-    accounts: Account[], 
-    programName?: string
-  ): void {
+  programId: string,
+  instructionName: string,
+  instructionData: Buffer<ArrayBufferLike>, // store instruction parameters
+  accounts: Account[],
+  programName?: string,
+): void {
+  if (!Buffer.isBuffer(instructionData)) {
+    throw new Error("instructionData must be a Buffer");
+  }
   const instructionDataArray = Array.from(instructionData);
 
   // Ensure the BASE_OUTPUT_DIR exists
@@ -67,7 +70,10 @@ export function generateInstruction(
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
-  } 
+  }
 
-  fs.writeFileSync(outputPath || `${instructionName}.json`, JSON.stringify(jsonData, null, 2));
+  fs.writeFileSync(
+    outputPath || `${instructionName}.json`,
+    JSON.stringify(jsonData, null, 2),
+  );
 }
