@@ -1,0 +1,24 @@
+
+name: Test npm package
+
+on:
+  push:
+    branches:
+      - main
+
+build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        # This step sets up the Node.js environment for the workflow
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Test package  
+        run: npm test   # Ensure your package.json has a "test" script defined
