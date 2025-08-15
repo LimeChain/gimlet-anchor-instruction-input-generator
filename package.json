@@ -1,6 +1,6 @@
 {
   "name": "@limechain/gimlet-anchor-instruction-input-generator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Generate instruction JSON files dynamically from JS tests for Agave Ledger Tool",
   "main": "dist/cjs/index.js",        
   "module": "dist/esm/index.js",     
