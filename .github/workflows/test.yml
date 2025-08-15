@@ -3,8 +3,6 @@ name: Test npm package
 
 on:
   push:
-    branches:
-      - main
 
 build:
     runs-on: ubuntu-latest
@@ -19,6 +17,6 @@ build:
 
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Test package  
         run: npm test   # Ensure your package.json has a "test" script defined
